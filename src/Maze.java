@@ -80,13 +80,13 @@ public abstract class Maze implements GraphInterface {
 
 		
 		} catch (FileNotFoundException e) {
-			System.err.println("Error class Maze : initFromTextFile file not found");
+			System.err.println("Error class Maze, initFromTextFile: file not found\"" + fileName + "\"");
 
 		} catch (IOException e) {
-			System.err.println("Error class Maze : initFromTextFile read error on file \"" + fileName +"\""); 
+			System.err.println("Error class Maze, initFromTextFile: read error on file \"" + fileName +"\""); 
 		
 		} catch (Exception e) {
-			System.err.println("Error");
+			System.err.println("Error : unknown error.");
 			e.printStackTrace(System.err);
 		} finally {
 			if (fr != null) try {fr.close();} catch (Exception e) {};
