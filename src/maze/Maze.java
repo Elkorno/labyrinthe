@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import dijkstra.GraphInterface;
 import dijkstra.MazeReadingException;
 import dijkstra.VertexInterface;
+import fr.enst.inf103.ui.MazeViewSource;
 
-public abstract class Maze implements GraphInterface {
+public abstract class Maze implements GraphInterface, MazeViewSource {
 	public static final int WIDTH = 10;
 	public static final int HEIGHT = 10;
 
