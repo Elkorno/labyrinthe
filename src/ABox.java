@@ -1,3 +1,5 @@
+import java.io.PrintWriter;
+
 
 public class ABox extends MBox {
 
@@ -5,5 +7,8 @@ public class ABox extends MBox {
 	{
 		super(maze,line,column);
 	}
-
+	public final void writeCharTo(PrintWriter pw)
+	{
+		pw.print('A');
+	}
 }
