@@ -1,9 +1,13 @@
+import java.io.PrintWriter;
+
 public abstract class MBox
 implements VertexInterface
 {
 	private final Maze maze;
 	private final int line;
 	private final int column;
+	
+	public abstract void writeCharTo(PrintWriter pw);
 		
 	public MBox(Maze maze,int line, int column)
 		{this.maze=maze;
