@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public abstract class Maze implements GraphInterface {
@@ -74,11 +75,35 @@ public abstract class Maze implements GraphInterface {
 
 			fr = new FileReader(fileName);
 			br = new BufferedReader(fr);
-			String line = null;
-		while ((line=br.readLine()) !=null) 
-			System.out.println(line);
-
+			
+			for (int lineNo = 0 ; lineNo < HEIGHT ; lineNo++) {
+				
+			String line = br.readLine();
+			
+			if (line==null)
+				throw new MazeReadingException(fileName,lineNo,"not enough lines");
+			if (line.length()<WIDTH)
+				throw new MazeReadingException(fileName,lineNo,"line too short");
+			if (line.length()>WIDTH)
+				throw new MazeReadingException(fileName,lineNo,"line too long");
+			for (int colNo=0 ; colNo < WIDTH ; colNo++) {
+				switch (line.charAt(colNo)) {
+				case 'D' :
+					boxes[lineNo][colNo] = new DBox(this,lineNo,colNo); break;
+				case 'A' :
+					boxes [lineNo][colNo] = new ABox(this,lineNo,colNo); break;
+				case 'W' :
+					boxes [lineNo][colNo] = new WBox(this,lineNo,colNo); break;
+				case 'E' :
+					boxes [lineNo][colNo] = new EBox(this,lineNo,colNo); break;
+				default :
+					throw new MazeReadingException(fileName,lineNo,"unknown char'"+boxes[lineNo][colNo]+"'");
+				}
+			}
 		
+		}
+		} catch (MazeReadingException e) {
+			System.err.println(e.getMessage());
 		} catch (FileNotFoundException e) {
 			System.err.println("Error class Maze, initFromTextFile: file not found\"" + fileName + "\"");
 
@@ -94,4 +119,32 @@ public abstract class Maze implements GraphInterface {
 		}
 
 	}
+	public final void saveToTextFile(String fileName)
+	{ 
+		PrintWriter pw = null;
+		
+		try {
+			pw = new PrintWriter(fileName);
+			
+			for (int lineNo = 0; lineNo < HEIGHT ; lineNo++) {
+				MBox[]line =boxes[lineNo];
+			for (int colNo=0 ; colNo < WIDTH ; colNo++) 
+				line[colNo].writeCharTo(pw);
+			pw.println();
+		
+			}
+	} catch (FileNotFoundException e) {
+		System.err.println("Error class Maze, saveToTextFile : file not found \""+ fileName +"\"");
+	} catch (SecurityException e) { 
+		System.err.println("Error class Maze, saveToTextFile : security exception\""+fileName+"\"");
+		
+	} catch (Exception e) {
+		System.err.println("Error : unkown error.");
+		e.printStackTrace(System.err);
+	} finally {
+		if (pw != null)
+			try {pw.close() ; } catch (Exception e) {} ;
+	}
+		
+	}	
 }
